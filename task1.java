@@ -25,11 +25,18 @@ public class task1 {
     }
 
     public static int getTriangularNumber(int num) {
-        int sum = 0;
-        for (int i = 1; i <= num; i++) {
-            sum = sum + i;
-        }
-        return sum;
+        return (num + 1) * num / 2;
     }
+
+    /**
+     * Second solution
+     * public static int getTriangularNumber(int num) {
+     * int sum = 0;
+     * for (int i = 1; i <= num; i++) {
+     * sum = sum + i;
+     * }
+     * return sum;
+     * }
+     */
 
 }
