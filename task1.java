@@ -1,42 +1,53 @@
-package firstHome;
+package homeWork2;
 
-import java.util.Scanner;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class task1 {
-
-    private static Scanner scanner = new Scanner(System.in);
-
-    public static void main(String[] args) {
-
-        // +Написать программу вычисления n-ого треугольного числа
-
-        int userInput = getNumberByUser("Введите число для получеия треугольного числа: ");
-        int result = getTriangularNumber(userInput);
-        System.out.println("Результат: " + result);
-
+    public static void main(String[] arg) throws ParseException {
+        String sqlQuery = "SELECT * FROM students WHERE ";
+        String strJson = "{\"name\":\"Ivanov\", \"country\":\"Russia\", \"city\":\"Moscow\", \"age\":\"null\"}";
+        String Formedquery = getSqlQuery(sqlQuery, parseJsonStr(strJson));
+        printToConsole(Formedquery);
     }
 
-    public static int getNumberByUser(String text) {
-        System.out.print(text);
-        int userInput = scanner.nextInt();
-        System.out.println(userInput);
-        return userInput;
-
+    // this method is used to print to the console
+    public static void printToConsole(String strResult) {
+        System.out.println("SQL query: ");
+        System.out.println(strResult);
     }
 
-    public static int getTriangularNumber(int num) {
-        return (num + 1) * num / 2;
+    // this methos join strings
+    public static String getSqlQuery(String sqlQuery, String parseJsonStr) {
+        return sqlQuery + parseJsonStr;
     }
 
-    /**
-     * Second solution
-     * public static int getTriangularNumber(int num) {
-     * int sum = 0;
-     * for (int i = 1; i <= num; i++) {
-     * sum = sum + i;
-     * }
-     * return sum;
-     * }
-     */
+    // method parse JsonString
+    public static String parseJsonStr(String jsonString) throws ParseException {
+        StringBuilder sb = new StringBuilder();
 
+        Object obj = new JSONParser().parse(jsonString);
+        JSONObject jo = (JSONObject) obj;
+
+        for (int i = 0; i < jo.keySet().toArray().length - 1; i++) {
+            var item = jo.keySet().toArray()[i];
+            String value = (String) jo.get(item);
+            if (value.equals("null")) {
+                continue;
+            } else {
+                sb.append(item).append('=').append('\'').append(value).append('\'');
+            }
+        }
+
+        var lastItem = jo.keySet().toArray()[jo.keySet().toArray().length - 1];
+        String lastValue = (String) jo.get(lastItem);
+
+        if (!lastValue.equals("null")) {
+            sb.append("AND").append(lastItem).append('=').append('\'').append(lastValue).append('\'');
+        }
+        sb.append(';');
+        return sb.toString();
+
+    }
 }
