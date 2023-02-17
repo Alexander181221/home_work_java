@@ -8,8 +8,8 @@ public class task1 {
     public static void main(String[] arg) throws ParseException {
         String sqlQuery = "SELECT * FROM students WHERE ";
         String strJson = "{\"name\":\"Ivanov\", \"country\":\"Russia\", \"city\":\"Moscow\", \"age\":\"null\"}";
-        String Formedquery = getSqlQuery(sqlQuery, parseJsonStr(strJson));
-        printToConsole(Formedquery);
+        String result = getSqlQuery(sqlQuery, parseJsonStr(strJson));
+        printToConsole(result);
     }
 
     // this method is used to print to the console
